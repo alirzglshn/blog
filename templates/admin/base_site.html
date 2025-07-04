@@ -1,0 +1,17 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block branding %}
+<h1 id="head">
+    <img src="{% static 'img/logo.png' %}" alt="Alireza's Blog" height="50px" width="50px"> Alireza's Admin Page
+</h1>
+{% endblock branding %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+<style>
+    #header{
+background-color : #8B0000 !important;
+}
+</style>
+{% endblock extrastyle %}

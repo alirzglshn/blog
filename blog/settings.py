@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'posts' ,
     'blogger',
     'comments' ,
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

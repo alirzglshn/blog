@@ -1,19 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render , get_object_or_404
 from .models import Post
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 # Create your views here.
 def posts(request):
-    posts_list = Post.objects.all()
+    posts_list = Post.objects.order_by('-post_date').filter(is_published = True)
+    paginator = Paginator(posts_list , 3)
+    page = request.GET.get('page')
+    paged_post_list = paginator.get_page(page)
     context = {
-        "posts" : posts_list
+        "posts" : paged_post_list
     }
     return render(request , "posts/posts.html" , context)
 
 def post(request, post_id:int):
-    return render(request , "posts/post.html" , {})
+    post = get_object_or_404(Post , pk=post_id)
+    return render(request , "posts/post.html" , {'post' : post})
 
 def search(request):
-    return render(request , "posts/search.html" , {})
+    posts = Post.objects.order_by('-post_date').filter(is_published=True)
+    if 'search_text' in request.GET:
+        search_text = request.GET['search_text']
+        if search_text:
+            posts = posts.filter(Q(title__icontains = search_text) | Q(text__icontains = search_text) | Q(blogger__name__icontains = search_text))
+    return render(request , "posts/search.html" , {'posts' : posts})
 
 
-# 00:03 JUly 6 2025

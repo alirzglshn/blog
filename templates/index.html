@@ -9,6 +9,10 @@
   <div class="container">
     <h3 class="text-center mb-3">آخرین پست ها</h3>
 
+      {% if user.is_authenticated %}
+      <h3> you are logged in as {{ user.username }} </h3>
+      {% endif %}
+
     <div class="row">
 
       {% if posts %}

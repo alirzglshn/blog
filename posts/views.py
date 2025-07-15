@@ -1,4 +1,5 @@
-from django.shortcuts import render , get_object_or_404
+from allauth.socialaccount.providers.dummy.views import authenticate
+from django.shortcuts import render , get_object_or_404 , redirect
 from .models import Post
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -25,5 +26,25 @@ def search(request):
         if search_text:
             posts = posts.filter(Q(title__icontains = search_text) | Q(text__icontains = search_text) | Q(blogger__name__icontains = search_text))
     return render(request , "posts/search.html" , {'posts' : posts})
+
+
+def like_post(request , post_id):
+    if not request.user.is_authenticated:
+        return render(request , 'accounts/authentication_alert.html' , {})
+
+    post = get_object_or_404(Post , pk=post_id)
+    blogger = request.user.blogger
+    if blogger in post.likers.all():
+        post.likers.remove(blogger)
+        post.likes_count -= 1
+
+    else :
+        post.likes_count += 1
+
+
+    post.save()
+
+    return redirect('post' , post_id=post_id)
+
 
 

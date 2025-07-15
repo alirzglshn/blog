@@ -92,7 +92,7 @@
               <div class="col-md-6">
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item text-secondary">
-                    <i class="fas fa-thumbs-up"></i>
+                      <a href="{% url 'like_post' post.id %}"><i class="fas fa-thumbs-up"></i></a>
                     <span>{{ post.likes_count }}</span>
                   </li>
                   <li class="list-group-item text-secondary">

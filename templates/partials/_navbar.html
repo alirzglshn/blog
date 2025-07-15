@@ -36,9 +36,19 @@
         </div>
         <ul class="navbar-nav mr-auto">
           {% if user.is_authenticated %}
+
+          <li class="nav-item mr-3">
+            <a class="nav-link" href="#">Add a Post</a>
+          </li>
+
+          <li class="nav-item mr-3">
+            <a class="nav-link" href="#">{{ user.username }}</a>
+          </li>
+
           <li class="nav-item mr-3">
             <a class="nav-link" href="{% url 'sign_out' %}"><i class="fas fa-sign-in-alt"></i> خروج </a>
           </li>
+
           {% else %}
           <li class="nav-item mr-3">
             <a class="nav-link" href="{% url 'sign_up' %}"><i class="fas fa-user-plus"></i> ثبت نام </a>

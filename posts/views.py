@@ -5,6 +5,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from comments.models import Comment
 from comments.forms import The_Comments
+from .forms import NewPostForm
+from blogger.models import Blogger
 # Create your views here.
 def posts(request):
     posts_list = Post.objects.order_by('-post_date').filter(is_published = True)
@@ -15,6 +17,19 @@ def posts(request):
         "posts" : paged_post_list
     }
     return render(request , "posts/posts.html" , context)
+
+def new_post(request):
+    if request.method == 'POST':
+        form = NewPostForm(request.POST , request.FILES)
+        if form.is_valid():
+            the_post = form.save(commit=False)
+            the_post.blogger = Blogger.objects.get(user=request.user)
+            the_post.save()
+            return redirect('post' , post_id = the_post.id)
+    else :
+        form = NewPostForm()
+        return render(request , 'posts/new_post.html' , {'form' : form})
+
 
 def post(request, post_id:int):
     post = get_object_or_404(Post , pk=post_id)

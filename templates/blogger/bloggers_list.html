@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+
+    h3{
+    text-align : center ;
+    color : yellow ;
+    }
+</style>
+{% if user.is_authenticated %}
+<br/><br/><br/><br/>
+<a style="text-decoration : underline"><h3>◆ به کسی پیام بدهید</h3></a>
+<br/><br/>
+<h3>◆  پیام های شما 👇</h3>
+
+
+
+{% else  %}
+<h3>you need to be logged in to see list of users</h3>
+{% endif %}
+
+{% endblock %}

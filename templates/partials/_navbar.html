@@ -1,8 +1,16 @@
 {% load static %}
 
-
+<style>
+  header{
+  background-color : #a50044 !important ;
+  color : yellow !important;
+  }
+  a{
+  color : yellow !important;
+  }
+</style>
 <!-- Header -->
-  <header class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top header" id="header" style="background-color: #DB002C !important">
+  <header class="navbar navbar-expand-lg navbar-dark  sticky-top header" id="header" >
     <div class="container">
       <div class="header_toggle"><i class="bx bx-menu text-white" id="header-toggle"></i></div>
 
@@ -38,7 +46,11 @@
           {% if user.is_authenticated %}
 
           <li class="nav-item mr-3">
-            <a class="nav-link" href="{% url 'new_post' %}">Add a Post</a>
+            <a class="nav-link" href="{% url 'new_post' %}">اضافه کردن پست</a>
+          </li>
+
+          <li class="nav-item mr-3">
+            <a class="nav-link" href="{% url 'bloggers_list' %}">پیام ها</a>
           </li>
 
           <li class="nav-item mr-3">

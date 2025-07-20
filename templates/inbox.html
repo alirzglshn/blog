@@ -1,1 +1,42 @@
-this is the inbox
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    h2{
+    text-align : center ;
+    color : yellow ;
+    }
+
+    p {
+    text-align: right;
+    padding-right: 50px;
+    color : yellow ;
+}
+
+
+    .the-message{
+    border-top : 10px solid black ;
+    border-bottom : 10px solid black ;
+    height : 100px ;
+    }
+    .the-message:hover {
+    background-color : red ;
+    }
+</style>
+
+<br/><br/>
+<h2>پیام های شما</h2>
+<br/><br/><br/><br/>
+
+{% for msg in messages %}
+<a href="{% url 'message_history' %}">
+<div class="the-message">
+    <br/>
+    <p><strong>●</strong> {{ msg.sending_blogger.username }}</p>
+    <p>{{ msg.text }}</p>
+</div>
+</a>
+{% endfor %}
+
+
+{% endblock %}

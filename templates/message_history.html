@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    hr {
+    border: none;
+    border-top: 2px solid red;
+    }
+    p{
+    text-align: right;
+    padding-right: 50px;
+    color : yellow ;
+    }
+
+</style>
+
+
+<br/><br/><br/><br/>
+
+{% for msg in messages %}
+<div class="the-message">
+    <p>{{ msg.time }}</p>
+    <p><strong>From:</strong>
+        {% if msg.sending_blogger == request.user %}
+            شما
+        {% else %}
+            {{ msg.sending_blogger.username }}
+        {% endif %}
+    </p>
+    <p>{{ msg.text }}</p>
+    <hr>
+    {% if msg.sending_blogger != request.user %}
+    <button type="button" onclick="toggleForm('form-{{ msg.id }}')">Reply</button>
+
+    <div id="form-{{ msg.id }}" style="display:none;">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="message_id" value="{{ msg.id }}">
+            <button type="submit">Send</button>
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endfor %}
+
+<script>
+function toggleForm(id) {
+    const formDiv = document.getElementById(id);
+    if (formDiv.style.display === "none") {
+        formDiv.style.display = "block";
+    } else {
+        formDiv.style.display = "none";
+    }
+}
+</script>
+
+
+<script>
+function toggleForm(id) {
+    const formDiv = document.getElementById(id);
+    if (formDiv.style.display === "none") {
+        formDiv.style.display = "block";
+    } else {
+        formDiv.style.display = "none";
+    }
+}
+</script>
+
+
+
+{% endblock %}

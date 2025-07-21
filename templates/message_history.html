@@ -11,50 +11,75 @@
     padding-right: 50px;
     color : yellow ;
     }
+    button{
+    margin-right : 50px ;
+    }
 
 </style>
 
 
 <br/><br/><br/><br/>
 
+<!--{% for msg in messages %}-->
+<!--<div class="the-message">-->
+<!--    <p>{{ msg.time }}</p>-->
+<!--    <p><strong>From:</strong>-->
+<!--        {% if msg.sending_blogger == request.user %}-->
+<!--            شما-->
+<!--        {% else %}-->
+<!--            {{ msg.sending_blogger.username }}-->
+<!--        {% endif %}-->
+<!--    </p>-->
+<!--    <p>{{ msg.text }}</p>-->
+<!--    <hr>-->
+<!--    {% if msg.sending_blogger != request.user %}-->
+<!--    <button type="button" onclick="toggleForm('form-{{ msg.id }}')">Reply</button>-->
+
+<!--    <div id="form-{{ msg.id }}" style="display:none;">-->
+<!--        <form method="POST">-->
+<!--            {% csrf_token %}-->
+<!--            {{ form.as_p }}-->
+<!--            <input type="hidden" name="message_id" value="{{ msg.id }}">-->
+<!--            <button type="submit">Send</button>-->
+<!--            <br/><br/><br/><br/><br/><br/><br/><br/><br/>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--    {% endif %}-->
+<!--</div>-->
+<!--{% endfor %}-->
+
+
 {% for msg in messages %}
 <div class="the-message">
-    <p>{{ msg.time }}</p>
-    <p><strong>From:</strong>
-        {% if msg.sending_blogger == request.user %}
-            شما
-        {% else %}
-            {{ msg.sending_blogger.username }}
-        {% endif %}
-    </p>
-    <p>{{ msg.text }}</p>
-    <hr>
-    {% if msg.sending_blogger != request.user %}
-    <button type="button" onclick="toggleForm('form-{{ msg.id }}')">Reply</button>
+    {% if msg.sending_blogger == request.user %}
+         <p>In reply to: {{ msg.replies_to.text }}</p>
+        <p>{{ msg.time }}</p>
+        <p><strong>●</strong> شما</p>
+        <p style="color : white !important ;">{{ msg.text }}</p>
+        <hr>
+    {% else %}
+        <p>In reply to: {{ msg.replies_to.text }}</p>
+        <p>{{ msg.time }}</p>
+        <p>{{msg.replies_to}}</p>
+        <p><strong>●</strong> {{ msg.sending_blogger.username }}</p>
+        <p style="color : white !important ;">{{ msg.text }}</p>
 
-    <div id="form-{{ msg.id }}" style="display:none;">
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="hidden" name="message_id" value="{{ msg.id }}">
-            <button type="submit">Send</button>
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/>
-        </form>
-    </div>
+        <button type="button" onclick="toggleForm('form-{{ msg.id }}')">پاسخ بدهید</button>
+    <br/><br/><br/><br/>
+        <div id="form-{{ msg.id }}" style="display:none;">
+            <form method="POST" style="margin-right : 50px ; ">
+                {% csrf_token %}
+                <textarea name="text" required></textarea>
+                <input type="hidden" name="message_id" value="{{ msg.id }}">
+                <input type="hidden" name="replies_to" value="{{ msg.id }}">
+                <button type="submit">ارسال</button>
+            </form>
+        </div>
+        <hr>
     {% endif %}
 </div>
 {% endfor %}
 
-<script>
-function toggleForm(id) {
-    const formDiv = document.getElementById(id);
-    if (formDiv.style.display === "none") {
-        formDiv.style.display = "block";
-    } else {
-        formDiv.style.display = "none";
-    }
-}
-</script>
 
 
 <script>
@@ -67,6 +92,7 @@ function toggleForm(id) {
     }
 }
 </script>
+
 
 
 

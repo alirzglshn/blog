@@ -13,5 +13,15 @@ class Message(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
 
+    replies_to = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='replies'
+    )
+
     def __str__(self):
         return f'Message from {self.sending_blogger} to {self.receiving_blogger}'
+
+

@@ -25,5 +25,4 @@ urlpatterns = [
     path('posts/' , include('posts.urls')) ,
     path('accounts/', include('accounts.urls')),
     path('blogger/' , include('blogger.urls')),
-    path('messages/' , include('user_messages.urls')),
 ] + static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)
